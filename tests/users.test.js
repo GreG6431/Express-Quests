@@ -44,7 +44,7 @@ describe("POST /api/users", () => {
       language: "French",
     };
 
-    const response = await request(app).post("/api/users").send(newMovie);
+    const response = await request(app).post("/api/users").send(newUser);
 
     expect(response.headers["content-type"]).toMatch(/json/);
     expect(response.status).toEqual(201);
@@ -56,19 +56,19 @@ describe("POST /api/users", () => {
       response.body.id
     );
 
-    const [movieInDatabase] = result;
+    const [userInDatabase] = result;
 
     expect(userInDatabase).toHaveProperty("id");
 
-    expect(userInDatabase).toHaveProperty("title");
+    expect(userInDatabase).toHaveProperty("lastname");
     expect(userInDatabase.lastname).toStrictEqual(newUser.lastname);
   });
   it("should return an error", async () => {
-    const movieWithMissingProps = { lastname: "Harry" };
+    const userWithMissingProps = { lastname: "Harry" };
 
     const response = await request(app)
       .post("/api/users")
-      .send(movieWithMissingProps);
+      .send(userWithMissingProps);
 
     expect(response.status).toEqual(500);
   });
